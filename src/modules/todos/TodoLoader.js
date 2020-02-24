@@ -2,7 +2,16 @@ import prisma from '../../prisma';
 
 export async function createTodo(_, { input }) {
   const todo = await prisma.mutation.createTodo({
-    data: input,
+    data: {
+      title: input.title,
+      content: input.content,
+      done: input.done,
+      author: {
+        connect: {
+          id: input.author,
+        },
+      },
+    },
   });
   return todo;
 }
@@ -42,5 +51,15 @@ export async function updateTodo(_, id, input) {
     },
     data: input,
   });
+  return todo;
+}
+
+export async function deleteTodo(_, id) {
+  const todo = await prisma.mutation.deleteTodo({
+    where: {
+      id,
+    },
+  });
+
   return todo;
 }

@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "apollo-server": "^2.10.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-cli": "^3.0.14",
