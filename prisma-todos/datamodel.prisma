@@ -1,0 +1,6 @@
+type Todo {
+  id: ID! @id
+  title: String!
+  content: String!
+  done: Boolean!
+}
