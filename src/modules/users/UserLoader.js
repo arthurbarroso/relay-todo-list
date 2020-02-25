@@ -6,3 +6,16 @@ export async function createUser(_, { input }) {
   });
   return user;
 }
+
+export async function getUser(value, id, contain, info) {
+  // console.log(info);
+  const user = await prisma.query.users(
+    {
+      where: {
+        id,
+      },
+    },
+    info
+  );
+  return user;
+}
