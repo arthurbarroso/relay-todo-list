@@ -24,6 +24,9 @@ const createTodoMutation = {
           done: {
             type: GraphQLBoolean,
           },
+          author: {
+            type: GraphQLString,
+          },
         },
       }),
     },

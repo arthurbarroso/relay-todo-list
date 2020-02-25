@@ -3,7 +3,7 @@ type Todo {
   title: String!
   content: String!
   done: Boolean!
-
+  author: User! @relation(name: "TodoToUser", onDelete: SET_NULL)
 }
 
 type User {

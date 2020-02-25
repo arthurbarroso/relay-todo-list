@@ -6,6 +6,11 @@ export async function createTodo(parentValues, args, context, info) {
         title: input.title,
         content: input.content,
         done: input.done,
+        author: {
+          connect: {
+            id: input.author,
+          },
+        },
       },
     },
     info
@@ -75,4 +80,17 @@ export async function deleteTodo(_, args, context, info) {
   );
 
   return todo;
+}
+
+export async function findAuthor(parentValues, args, context, info) {
+  // console.log(parentValues.author.username);
+  const user = await context.prisma.query.users(
+    {
+      where: {
+        username: parentValues.author.username,
+      },
+    },
+    info
+  );
+  return user[0];
 }

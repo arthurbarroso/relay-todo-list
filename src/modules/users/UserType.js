@@ -5,8 +5,7 @@ import {
   GraphQLList,
 } from 'graphql';
 
-import { } from '../todos/TodoLoader'
-
+import { getTodos } from './UserLoader';
 import TodoType from '../todos/TodoType';
 
 export default new GraphQLObjectType({
@@ -26,7 +25,9 @@ export default new GraphQLObjectType({
     },
     todos: {
       type: GraphQLList(TodoType),
-      resolve: () => 5,
+      resolve: (parentValues, args, context, info) => {
+        return getTodos(parentValues, args, context, info);
+      },
     },
   }),
 });

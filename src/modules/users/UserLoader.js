@@ -31,6 +31,16 @@ export async function getUsers(value, args, context, info) {
   return users;
 }
 
-export async function getTodos(value, args, context, info) {
-  // console.log(value);
+export async function getTodos(parentValues, args, context, info) {
+  const todos = await context.prisma.query.todoes(
+    {
+      where: {
+        author: {
+          id: parentValues.id,
+        },
+      },
+    },
+    info
+  );
+  return todos;
 }

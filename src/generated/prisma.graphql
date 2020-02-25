@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Feb 25 2020 16:59:51 GMT-0300 (Brasilia Standard Time)
+# timestamp: Tue Feb 25 2020 17:35:14 GMT-0300 (Brasilia Standard Time)
 
 type AggregateTodo {
   count: Int!
@@ -24,18 +24,18 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createTodo(data: TodoCreateInput!): Todo!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createUser(data: UserCreateInput!): User!
   updateTodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteTodo(where: TodoWhereUniqueInput!): Todo
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertTodo(where: TodoWhereUniqueInput!, create: TodoCreateInput!, update: TodoUpdateInput!): Todo!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyTodoes(data: TodoUpdateManyMutationInput!, where: TodoWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyTodoes(where: TodoWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -71,12 +71,12 @@ enum PrismaDatabase {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   todoes(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Todo]!
-  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   todo(where: TodoWhereUniqueInput!): Todo
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user(where: UserWhereUniqueInput!): User
   todoesConnection(where: TodoWhereInput, orderBy: TodoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -86,8 +86,8 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   todo(where: TodoSubscriptionWhereInput): TodoSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type Todo implements Node {
@@ -95,6 +95,7 @@ type Todo implements Node {
   title: String!
   content: String!
   done: Boolean!
+  author: User!
 }
 
 """A connection to a list of items."""
@@ -112,11 +113,19 @@ input TodoCreateInput {
   title: String!
   content: String!
   done: Boolean!
+  author: UserCreateOneWithoutTodosInput!
 }
 
-input TodoCreateManyInput {
-  create: [TodoCreateInput!]
+input TodoCreateManyWithoutAuthorInput {
+  create: [TodoCreateWithoutAuthorInput!]
   connect: [TodoWhereUniqueInput!]
+}
+
+input TodoCreateWithoutAuthorInput {
+  id: ID
+  title: String!
+  content: String!
+  done: Boolean!
 }
 
 """An edge in a connection."""
@@ -318,16 +327,11 @@ input TodoSubscriptionWhereInput {
   node: TodoWhereInput
 }
 
-input TodoUpdateDataInput {
-  title: String
-  content: String
-  done: Boolean
-}
-
 input TodoUpdateInput {
   title: String
   content: String
   done: Boolean
+  author: UserUpdateOneRequiredWithoutTodosInput
 }
 
 input TodoUpdateManyDataInput {
@@ -336,22 +340,22 @@ input TodoUpdateManyDataInput {
   done: Boolean
 }
 
-input TodoUpdateManyInput {
-  create: [TodoCreateInput!]
-  connect: [TodoWhereUniqueInput!]
-  set: [TodoWhereUniqueInput!]
-  disconnect: [TodoWhereUniqueInput!]
-  delete: [TodoWhereUniqueInput!]
-  update: [TodoUpdateWithWhereUniqueNestedInput!]
-  updateMany: [TodoUpdateManyWithWhereNestedInput!]
-  deleteMany: [TodoScalarWhereInput!]
-  upsert: [TodoUpsertWithWhereUniqueNestedInput!]
-}
-
 input TodoUpdateManyMutationInput {
   title: String
   content: String
   done: Boolean
+}
+
+input TodoUpdateManyWithoutAuthorInput {
+  create: [TodoCreateWithoutAuthorInput!]
+  connect: [TodoWhereUniqueInput!]
+  set: [TodoWhereUniqueInput!]
+  disconnect: [TodoWhereUniqueInput!]
+  delete: [TodoWhereUniqueInput!]
+  update: [TodoUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [TodoUpdateManyWithWhereNestedInput!]
+  deleteMany: [TodoScalarWhereInput!]
+  upsert: [TodoUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
 input TodoUpdateManyWithWhereNestedInput {
@@ -359,15 +363,21 @@ input TodoUpdateManyWithWhereNestedInput {
   data: TodoUpdateManyDataInput!
 }
 
-input TodoUpdateWithWhereUniqueNestedInput {
-  where: TodoWhereUniqueInput!
-  data: TodoUpdateDataInput!
+input TodoUpdateWithoutAuthorDataInput {
+  title: String
+  content: String
+  done: Boolean
 }
 
-input TodoUpsertWithWhereUniqueNestedInput {
+input TodoUpdateWithWhereUniqueWithoutAuthorInput {
   where: TodoWhereUniqueInput!
-  update: TodoUpdateDataInput!
-  create: TodoCreateInput!
+  data: TodoUpdateWithoutAuthorDataInput!
+}
+
+input TodoUpsertWithWhereUniqueWithoutAuthorInput {
+  where: TodoWhereUniqueInput!
+  update: TodoUpdateWithoutAuthorDataInput!
+  create: TodoCreateWithoutAuthorInput!
 }
 
 input TodoWhereInput {
@@ -503,6 +513,7 @@ input TodoWhereInput {
 
   """All values that are not equal to given value."""
   done_not: Boolean
+  author: UserWhereInput
 }
 
 input TodoWhereUniqueInput {
@@ -532,7 +543,19 @@ input UserCreateInput {
   username: String!
   email: String!
   password: String!
-  todos: TodoCreateManyInput
+  todos: TodoCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutTodosInput {
+  create: UserCreateWithoutTodosInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTodosInput {
+  id: ID
+  username: String!
+  email: String!
+  password: String!
 }
 
 """An edge in a connection."""
@@ -603,13 +626,31 @@ input UserUpdateInput {
   username: String
   email: String
   password: String
-  todos: TodoUpdateManyInput
+  todos: TodoUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
   username: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutTodosInput {
+  create: UserCreateWithoutTodosInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutTodosDataInput
+  upsert: UserUpsertWithoutTodosInput
+}
+
+input UserUpdateWithoutTodosDataInput {
+  username: String
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutTodosInput {
+  update: UserUpdateWithoutTodosDataInput!
+  create: UserCreateWithoutTodosInput!
 }
 
 input UserWhereInput {
