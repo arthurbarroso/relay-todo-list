@@ -1,65 +1,78 @@
-import prisma from '../../prisma';
-
-export async function createTodo(_, { input }) {
-  const todo = await prisma.mutation.createTodo({
-    data: {
-      title: input.title,
-      content: input.content,
-      done: input.done,
-      author: {
-        connect: {
-          id: input.author,
-        },
+export async function createTodo(parentValues, args, context, info) {
+  const { input } = args;
+  const todo = await context.prisma.mutation.createTodo(
+    {
+      data: {
+        title: input.title,
+        content: input.content,
+        done: input.done,
       },
     },
-  });
+    info
+  );
   return todo;
 }
 
-export async function getTodos(value, id, contain) {
+export async function getTodos(parentValues, args, context, info) {
+  const { id, contain } = args;
   if (id && !contain) {
-    const todo = await prisma.query.todoes({
-      where: {
-        id,
+    const todo = await context.prisma.query.todoes(
+      {
+        where: {
+          id,
+        },
       },
-    });
+      info
+    );
     return todo;
   }
   if (contain && !id) {
-    const containTodo = await prisma.query.todoes({
-      where: {
-        OR: [
-          {
-            title_contains: contain,
-          },
-          {
-            content_contains: contain,
-          },
-        ],
+    const containTodo = await context.prisma.query.todoes(
+      {
+        where: {
+          OR: [
+            {
+              title_contains: contain,
+            },
+            {
+              content_contains: contain,
+            },
+          ],
+        },
       },
-    });
+      info
+    );
     return containTodo;
   }
-  const todos = await prisma.query.todoes();
+  const todos = await context.prisma.query.todoes({}, info);
   return todos;
 }
 
-export async function updateTodo(_, id, input) {
-  const todo = await prisma.mutation.updateTodo({
-    where: {
-      id,
+export async function updateTodo(parentValues, args, context, info) {
+  const { id, input } = args;
+  const todo = await context.prisma.mutation.updateTodo(
+    {
+      where: {
+        id,
+      },
+      data: input,
     },
-    data: input,
-  });
+    info
+  );
   return todo;
 }
 
-export async function deleteTodo(_, id) {
-  const todo = await prisma.mutation.deleteTodo({
-    where: {
-      id,
+export async function deleteTodo(_, args, context, info) {
+  const { id } = args;
+  const { prisma } = context;
+  const todo = await prisma.mutation.deleteTodo(
+    {
+      where: {
+        id,
+      },
     },
-  });
+    info
+  );
 
   return todo;
 }

@@ -1,24 +1,26 @@
-import { GraphQLString, GraphQLInputObjectType } from 'graphql';
+import { GraphQLString, GraphQLInputObjectType, GraphQLNonNull } from 'graphql';
 import UserType from './UserType';
 
 import { createUser } from './UserLoader';
 
 const createUserMutation = {
   type: UserType,
-  resolve: createUser,
+  resolve: (parentValues, args, context, info) => {
+    return createUser(parentValues, args, context, info);
+  },
   args: {
     input: {
       type: new GraphQLInputObjectType({
         name: 'UserInput',
         fields: {
           username: {
-            type: GraphQLString,
+            type: GraphQLNonNull(GraphQLString),
           },
           email: {
-            type: GraphQLString,
+            type: GraphQLNonNull(GraphQLString),
           },
           password: {
-            type: GraphQLString,
+            type: GraphQLNonNull(GraphQLString),
           },
         },
       }),

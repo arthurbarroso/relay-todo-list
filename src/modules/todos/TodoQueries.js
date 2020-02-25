@@ -5,8 +5,8 @@ import { getTodos } from './TodoLoader';
 
 const todoQuery = {
   type: GraphQLList(TodoType),
-  resolve: (value, { id, contain }) => {
-    return getTodos(value, id, contain);
+  resolve: (parentValue, args, context, info) => {
+    return getTodos(parentValue, args, context, info);
   },
   args: {
     id: {

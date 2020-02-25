@@ -5,9 +5,6 @@ import {
   GraphQLBoolean,
 } from 'graphql';
 
-import UserType from '../users/UserType';
-import { getUser } from '../users/UserLoader';
-
 export default new GraphQLObjectType({
   name: 'TodoType',
   fields: {
@@ -22,12 +19,6 @@ export default new GraphQLObjectType({
     },
     done: {
       type: GraphQLNonNull(GraphQLBoolean),
-    },
-    author: {
-      type: UserType,
-      resolve(parent) {
-        console.log(parent);
-      },
     },
   },
 });

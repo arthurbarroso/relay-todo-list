@@ -1,21 +1,36 @@
-import prisma from '../../prisma';
+// import prisma from '../../prisma';
 
-export async function createUser(_, { input }) {
-  const user = await prisma.mutation.createUser({
-    data: input,
-  });
-  return user;
-}
-
-export async function getUser(value, id, contain, info) {
-  // console.log(info);
-  const user = await prisma.query.users(
+export async function createUser(value, args, context, info) {
+  const { input } = args;
+  // console.log('input', input)
+  // console.log(context);
+  const user = await context.prisma.mutation.createUser(
     {
-      where: {
-        id,
-      },
+      data: input,
     },
     info
   );
   return user;
+}
+
+export async function getUsers(value, args, context, info) {
+  const { id } = args;
+  if (id) {
+    const user = await context.prisma.query.users(
+      {
+        where: {
+          id,
+        },
+      },
+      info
+    );
+    return user;
+  }
+
+  const users = await context.prisma.query.users({}, info);
+  return users;
+}
+
+export async function getTodos(value, args, context, info) {
+  // console.log(value);
 }

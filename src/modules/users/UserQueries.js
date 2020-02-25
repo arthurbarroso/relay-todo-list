@@ -1,12 +1,12 @@
 import { GraphQLString, GraphQLList } from 'graphql';
-import { getUser } from './UserLoader';
+import { getUsers } from './UserLoader';
 
 import UserType from './UserType';
 
 const userQuery = {
   type: GraphQLList(UserType),
-  resolve: (value, { id, contain }, ctx, info) => {
-    return getUser(value, id, contain, info);
+  resolve: (parentValues, args, context, info) => {
+    return getUsers(parentValues, args, context, info);
   },
   args: {
     id: {

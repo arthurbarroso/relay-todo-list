@@ -7,7 +7,9 @@ import { createTodo, updateTodo, deleteTodo } from './TodoLoader';
 
 const createTodoMutation = {
   type: TodoType,
-  resolve: createTodo,
+  resolve: (parentValues, args, context, info) => {
+    return createTodo(parentValues, args, context, info);
+  },
   args: {
     input: {
       type: new GraphQLInputObjectType({
@@ -22,9 +24,6 @@ const createTodoMutation = {
           done: {
             type: GraphQLBoolean,
           },
-          author: {
-            type: GraphQLString,
-          },
         },
       }),
     },
@@ -33,8 +32,8 @@ const createTodoMutation = {
 
 const updateTodoMutation = {
   type: TodoType,
-  resolve: (value, { id, input }) => {
-    return updateTodo(value, id, input);
+  resolve: (parentValues, args, context, info) => {
+    return updateTodo(parentValues, args, context, info);
   },
   args: {
     input: {
@@ -61,8 +60,8 @@ const updateTodoMutation = {
 
 const deleteTodoMutation = {
   type: TodoType,
-  resolve: (value, { id }) => {
-    return deleteTodo(value, id);
+  resolve: (parentValues, args, context, info) => {
+    return deleteTodo(parentValues, args, context, info);
   },
   args: {
     id: {
