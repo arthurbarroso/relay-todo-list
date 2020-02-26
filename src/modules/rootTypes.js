@@ -56,3 +56,12 @@ export const TodoType = new GraphQLObjectType({
     },
   },
 });
+
+export const SessionType = new GraphQLObjectType({
+  name: 'SessionTypef',
+  fields: {
+    token: {
+      type: GraphQLNonNull(GraphQLString),
+    },
+  },
+});
