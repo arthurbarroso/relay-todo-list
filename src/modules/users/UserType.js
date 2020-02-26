@@ -1,3 +1,4 @@
+/*
 import {
   GraphQLObjectType,
   GraphQLNonNull,

@@ -1,15 +1,21 @@
-// import prisma from '../../prisma';
+import passwordHash from '../../utils/passwordHash';
 
 export async function createUser(value, args, context, info) {
   const { input } = args;
   // console.log('input', input)
   // console.log(context);
+  const hashed_pass = await passwordHash(input.password);
   const user = await context.prisma.mutation.createUser(
     {
-      data: input,
+      data: {
+        username: input.username,
+        email: input.email,
+        password: hashed_pass,
+      },
     },
     info
   );
+
   return user;
 }
 

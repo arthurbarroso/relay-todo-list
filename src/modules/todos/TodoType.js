@@ -1,3 +1,4 @@
+/*
 import {
   GraphQLObjectType,
   GraphQLNonNull,
@@ -32,3 +33,5 @@ export default new GraphQLObjectType({
     },
   },
 });
+
+*/

@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLList } from 'graphql';
-import TodoType from './TodoType';
+import { TodoType } from '../rootTypes';
 
 import { getTodos } from './TodoLoader';
 
