@@ -15,13 +15,9 @@ export async function login(parentValues, args, context, info) {
   const match = await compare(args.input.password, userExists.password);
 
   if (!match) throw new Error('Invalid password');
-  const jwtToken = await jwt.sign(
-    { id: userExists.id, username: userExists.username },
-    authConfig.secret,
-    {
-      expiresIn: authConfig.expiresIn,
-    }
-  );
+  const jwtToken = await jwt.sign({ id: userExists.id }, authConfig.secret, {
+    expiresIn: authConfig.expiresIn,
+  });
 
   return {
     token: jwtToken,

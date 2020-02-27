@@ -6,7 +6,10 @@ import schema from './schema';
 const server = new ApolloServer({
   schema,
   playground: process.env.NODE_ENV === 'development',
-  context: { prisma },
+  context: req => ({
+    prisma,
+    req,
+  }),
 });
 
 export default server;
