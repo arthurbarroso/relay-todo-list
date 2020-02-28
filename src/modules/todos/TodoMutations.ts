@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLBoolean, GraphQLInputObjectType } from 'graphql';
-import { TodoType } from '../rootTypes';
+import { TodoType } from '../rootType';
 
 // import UserType from '../users/UserType';
 

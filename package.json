@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "schema": "graphql get-schema -p prisma"
+    "dev": "nodemon src/server.ts",
+    "schema": "graphql get-schema -p prisma",
+    "build": "tsc"
   },
   "husky": {
     "hooks": {
@@ -16,6 +17,8 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "3.1.0",
     "eslint": "^6.8.0",
@@ -30,13 +33,17 @@
   },
   "dependencies": {
     "apollo-server": "^2.10.1",
+    "awesome-typescript-loader": "^5.2.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-cli": "^3.0.14",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
-    "prisma-binding": "^2.3.16"
+    "prisma-binding": "^2.3.16",
+    "source-map-loader": "^0.2.4",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.2"
   },
   "config": {
     "commitizen": {

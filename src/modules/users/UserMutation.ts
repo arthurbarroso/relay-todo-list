@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLInputObjectType, GraphQLNonNull } from 'graphql';
-import { UserType } from '../rootTypes';
+import { UserType } from '../rootType';
 
 import { createUser } from './UserLoader';
 

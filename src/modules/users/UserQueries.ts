@@ -1,7 +1,7 @@
 import { GraphQLString, GraphQLList } from 'graphql';
 import { getUsers } from './UserLoader';
 
-import { UserType } from '../rootTypes';
+import { UserType } from '../rootType';
 
 const userQuery = {
   type: GraphQLList(UserType),
