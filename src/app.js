@@ -1,7 +1,9 @@
 import 'dotenv/config';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, PubSub } from 'apollo-server';
 import prisma from './prisma';
 import schema from './schema';
+
+const pubsub = new PubSub();
 
 const server = new ApolloServer({
   schema,
@@ -9,6 +11,7 @@ const server = new ApolloServer({
   context: req => ({
     prisma,
     req,
+    pubsub,
   }),
 });
 

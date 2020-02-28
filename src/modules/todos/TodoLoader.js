@@ -15,6 +15,7 @@ export async function createTodo(parentValues, args, context, info) {
     },
     info
   );
+  context.pubsub.publish('TODO_ADDED', { createdTodo: todo });
   return todo;
 }
 

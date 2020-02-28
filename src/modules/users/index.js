@@ -6,5 +6,5 @@ export const userQueries = {
 };
 
 export const userMutations = {
-  createUser: createUserMutation,
+  register: createUserMutation,
 };
