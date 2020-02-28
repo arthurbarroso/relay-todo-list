@@ -1,6 +1,6 @@
 // import { GraphQLString, GraphQLList } from 'graphql';
 
-import { TodoType } from '../rootTypes';
+import { TodoType } from '../rootType';
 
 const todoSubscriptions = {
   type: TodoType,

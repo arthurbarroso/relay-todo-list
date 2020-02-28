@@ -1,5 +1,5 @@
 import { GraphQLString, GraphQLInputObjectType } from 'graphql';
-import { SessionType } from '../rootTypes';
+import { SessionType } from '../rootType';
 import { login } from './SessionLoader';
 
 const loginMutation = {

@@ -1,3 +1,4 @@
+import getUserId from "../../utils/getUserId";
 export async function createTodo(parentValues, args, context, info) {
   const { input } = args;
   const todo = await context.prisma.mutation.createTodo(
@@ -15,6 +16,10 @@ export async function createTodo(parentValues, args, context, info) {
     },
     info
   );
+  /*
+    const t = await getUserId(context.req)
+    console.log(t)
+  */
   context.pubsub.publish('TODO_ADDED', { createdTodo: todo });
   return todo;
 }

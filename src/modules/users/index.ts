@@ -1,4 +1,4 @@
-import { createUserMutation } from './UserMutations';
+import { createUserMutation } from './UserMutation';
 import { userQuery } from './UserQueries';
 
 export const userQueries = {
