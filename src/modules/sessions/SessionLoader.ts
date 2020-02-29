@@ -1,14 +1,11 @@
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import authConfig from '../../config/auth';
+import User, { UserModel } from '../users/UserModel';
 
 export async function login(parentValues, args, context, info) {
-  const userExists = await context.prisma.query.user({
-    where: {
-      username: args.input.username,
-    },
-    info,
-  });
+
+  const userExists = await User.findOne({ username: args.input.username });
 
   if (!userExists) throw new Error('No user found with that username');
 

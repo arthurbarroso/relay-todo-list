@@ -5,14 +5,12 @@ import { UserType } from '../rootType';
 
 const userQuery = {
   type: GraphQLList(UserType),
+  fragment: 'fragment userId on User { id }',
   resolve: (parentValues, args, context, info) => {
     return getUsers(parentValues, args, context, info);
   },
   args: {
-    id: {
-      type: GraphQLString,
-    },
-    contain: {
+    username: {
       type: GraphQLString,
     },
   },

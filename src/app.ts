@@ -1,17 +1,22 @@
 import 'dotenv/config';
 import { ApolloServer, PubSub } from 'apollo-server';
-import prisma from './prisma';
-import schema from './schema';
 import { Request } from 'express';
+import mongoose from 'mongoose';
+import schema from './schema';
 
+// import rootFragments from './modules/rootFragments';
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useFindAndModify: true,
+  useUnifiedTopology: true,
+});
 
 const pubsub = new PubSub();
 
 const server = new ApolloServer({
   schema,
-  playground: process.env.NODE_ENV === 'development',
+  playground: true,
   context: (req: Request) => ({
-    prisma,
     req,
     pubsub,
   }),

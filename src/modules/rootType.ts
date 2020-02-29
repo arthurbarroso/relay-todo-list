@@ -1,10 +1,4 @@
-import {
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-  GraphQLList,
-  GraphQLBoolean,
-} from 'graphql';
+import { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList, GraphQLBoolean } from 'graphql';
 
 import { getTodos } from './users/UserLoader';
 import { findAuthor } from './todos/TodoLoader';
@@ -13,15 +7,13 @@ export const UserType = new GraphQLObjectType({
   name: 'UserType',
   fields: () => ({
     id: {
+      fragment: 'fragment UserFields on User id { id }',
       type: GraphQLNonNull(GraphQLString),
     },
     username: {
       type: GraphQLNonNull(GraphQLString),
     },
     email: {
-      type: GraphQLNonNull(GraphQLString),
-    },
-    password: {
       type: GraphQLNonNull(GraphQLString),
     },
     todos: {
