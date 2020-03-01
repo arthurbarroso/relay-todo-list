@@ -1,7 +1,7 @@
-import { queries } from './todos';
-import { userQueries } from './users';
+import { queries } from "./todos";
+import { userQueries } from "./users";
 
 export default {
   ...queries,
-  ...userQueries,
+  ...userQueries
 };

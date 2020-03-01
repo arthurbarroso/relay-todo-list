@@ -1,7 +1,7 @@
-import { GraphQLString, GraphQLList } from 'graphql';
-import { TodoType } from '../rootType';
+import { GraphQLString, GraphQLList } from "graphql";
+import { TodoType } from "../rootType";
 
-import { getTodos } from './TodoLoader';
+import { getTodos } from "./TodoLoader";
 
 const todoQuery = {
   type: GraphQLList(TodoType),
@@ -10,12 +10,12 @@ const todoQuery = {
   },
   args: {
     id: {
-      type: GraphQLString,
+      type: GraphQLString
     },
     contain: {
-      type: GraphQLString,
-    },
-  },
+      type: GraphQLString
+    }
+  }
 };
 
 export { todoQuery };

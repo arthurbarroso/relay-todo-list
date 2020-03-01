@@ -1,27 +1,27 @@
-import { GraphQLString, GraphQLInputObjectType } from 'graphql';
-import { SessionType } from '../rootType';
-import { login } from './SessionLoader';
+import { GraphQLString, GraphQLInputObjectType } from "graphql";
+import { SessionType } from "../rootType";
+import { login } from "./SessionLoader";
 
 const loginMutation = {
   type: SessionType,
   args: {
     input: {
       type: new GraphQLInputObjectType({
-        name: 'SessionInputt',
+        name: "SessionInputt",
         fields: {
           username: {
-            type: GraphQLString,
+            type: GraphQLString
           },
           password: {
-            type: GraphQLString,
-          },
-        },
-      }),
-    },
+            type: GraphQLString
+          }
+        }
+      })
+    }
   },
   resolve: (parentValues, args, context, info) => {
     return login(parentValues, args, context, info);
-  },
+  }
 };
 
 export { loginMutation };

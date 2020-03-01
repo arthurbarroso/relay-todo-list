@@ -1,21 +1,21 @@
 import {
   createTodoMutation,
   updateTodoMutation,
-  deleteTodoMutation,
-} from './TodoMutations';
-import { todoQuery } from './TodoQueries';
-import { todoSubscriptions } from './todoSubscriptions';
+  deleteTodoMutation
+} from "./TodoMutations";
+import { todoQuery } from "./TodoQueries";
+import { todoSubscriptions } from "./todoSubscriptions";
 
 export const queries = {
-  todos: todoQuery,
+  todos: todoQuery
 };
 
 export const mutations = {
   createTodo: createTodoMutation,
   updateTodo: updateTodoMutation,
-  deleteTodo: deleteTodoMutation,
+  deleteTodo: deleteTodoMutation
 };
 
 export const subscriptions = {
-  createdTodo: todoSubscriptions,
+  createdTodo: todoSubscriptions
 };

@@ -1,8 +1,14 @@
-import { Request } from "express"
+import { Request } from "express";
+
 export interface userIdInterface extends Request {
   req: {
     headers: {
-      authentication: String
-    }
-  }
+      authentication: string;
+    };
+    connection: {
+      context: {
+        Authorization: string;
+      };
+    };
+  };
 }

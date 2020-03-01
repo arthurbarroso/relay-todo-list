@@ -1,9 +1,9 @@
-import { GraphQLString, GraphQLBoolean, GraphQLInputObjectType } from 'graphql';
-import { TodoType } from '../rootType';
+import { GraphQLString, GraphQLBoolean, GraphQLInputObjectType } from "graphql";
+import { TodoType } from "../rootType";
 
 // import UserType from '../users/UserType';
 
-import { createTodo, updateTodo, deleteTodo } from './TodoLoader';
+import { createTodo, updateTodo, deleteTodo } from "./TodoLoader";
 
 const createTodoMutation = {
   type: TodoType,
@@ -13,24 +13,24 @@ const createTodoMutation = {
   args: {
     input: {
       type: new GraphQLInputObjectType({
-        name: 'TodoInput',
+        name: "TodoInput",
         fields: {
           title: {
-            type: GraphQLString,
+            type: GraphQLString
           },
           content: {
-            type: GraphQLString,
+            type: GraphQLString
           },
           done: {
-            type: GraphQLBoolean,
+            type: GraphQLBoolean
           },
           author: {
-            type: GraphQLString,
-          },
-        },
-      }),
-    },
-  },
+            type: GraphQLString
+          }
+        }
+      })
+    }
+  }
 };
 
 const updateTodoMutation = {
@@ -41,24 +41,24 @@ const updateTodoMutation = {
   args: {
     input: {
       type: new GraphQLInputObjectType({
-        name: 'TodoUpdateInput',
+        name: "TodoUpdateInput",
         fields: {
           title: {
-            type: GraphQLString,
+            type: GraphQLString
           },
           content: {
-            type: GraphQLString,
+            type: GraphQLString
           },
           done: {
-            type: GraphQLBoolean,
-          },
-        },
-      }),
+            type: GraphQLBoolean
+          }
+        }
+      })
     },
     id: {
-      type: GraphQLString,
-    },
-  },
+      type: GraphQLString
+    }
+  }
 };
 
 const deleteTodoMutation = {
@@ -68,9 +68,9 @@ const deleteTodoMutation = {
   },
   args: {
     id: {
-      type: GraphQLString,
-    },
-  },
+      type: GraphQLString
+    }
+  }
 };
 
 export { createTodoMutation, updateTodoMutation, deleteTodoMutation };

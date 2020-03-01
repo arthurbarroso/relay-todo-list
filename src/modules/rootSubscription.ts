@@ -1,5 +1,5 @@
-import { subscriptions } from './todos';
+import { subscriptions } from "./todos";
 
 export default {
-  ...subscriptions,
+  ...subscriptions
 };

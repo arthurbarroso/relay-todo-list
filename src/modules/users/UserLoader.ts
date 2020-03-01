@@ -1,52 +1,39 @@
-import passwordHash from '../../utils/passwordHash';
+import User, { UserModel } from "./UserModel";
+import Todo, { TodoModel } from "../todos/TodoModel";
+import passwordHash from "../../utils/passwordHash";
 
-export async function createUser(value, args, context, info) {
+export async function createUser(
+  parentValues: any,
+  args: any,
+  context,
+  info
+): Promise<UserModel> {
   const { input } = args;
-  // console.log('input', input)
-  // console.log(context);
   const hashed_pass = await passwordHash(input.password);
-  const user = await context.prisma.mutation.createUser(
-    {
-      data: {
-        username: input.username,
-        email: input.email,
-        password: hashed_pass,
-      },
-    },
-    info
-  );
-
+  const user = await User.create({
+    username: input.username,
+    password: hashed_pass,
+    email: input.email
+  });
   return user;
 }
 
-export async function getUsers(value, args, context, info) {
-  const { id } = args;
-  if (id) {
-    const user = await context.prisma.query.users(
-      {
-        where: {
-          id,
-        },
-      },
-      info
-    );
-    return user;
-  }
-
-  const users = await context.prisma.query.users({}, info);
+export const getUsers = async (
+  parentValues: any,
+  args: any,
+  context: any,
+  info: any
+): Promise<UserModel> => {
+  const users = await User.find();
   return users;
-}
+};
 
-export async function getTodos(parentValues, args, context, info) {
-  const todos = await context.prisma.query.todoes(
-    {
-      where: {
-        author: {
-          id: parentValues.id,
-        },
-      },
-    },
-    info
-  );
+export async function getTodos(
+  parentValues: any,
+  args: any,
+  context: any,
+  info: any
+): Promise<TodoModel> {
+  const todos = await Todo.find({ author: parentValues.id });
   return todos;
 }

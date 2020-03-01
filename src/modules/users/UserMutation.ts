@@ -1,7 +1,7 @@
-import { GraphQLString, GraphQLInputObjectType, GraphQLNonNull } from 'graphql';
-import { UserType } from '../rootType';
+import { GraphQLString, GraphQLInputObjectType, GraphQLNonNull } from "graphql";
+import { UserType } from "../rootType";
 
-import { createUser } from './UserLoader';
+import { createUser } from "./UserLoader";
 
 const createUserMutation = {
   type: UserType,
@@ -11,21 +11,21 @@ const createUserMutation = {
   args: {
     input: {
       type: new GraphQLInputObjectType({
-        name: 'UserInput',
+        name: "UserInput",
         fields: {
           username: {
-            type: GraphQLNonNull(GraphQLString),
+            type: GraphQLNonNull(GraphQLString)
           },
           email: {
-            type: GraphQLNonNull(GraphQLString),
+            type: GraphQLNonNull(GraphQLString)
           },
           password: {
-            type: GraphQLNonNull(GraphQLString),
-          },
-        },
-      }),
-    },
-  },
+            type: GraphQLNonNull(GraphQLString)
+          }
+        }
+      })
+    }
+  }
 };
 
 export { createUserMutation };
