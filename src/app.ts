@@ -1,14 +1,13 @@
-import 'dotenv/config';
-import { ApolloServer, PubSub } from 'apollo-server';
-import { Request } from 'express';
-import mongoose from 'mongoose';
-import schema from './schema';
+import "dotenv/config";
+import { ApolloServer, PubSub } from "apollo-server";
+import { Request } from "express";
+import mongoose from "mongoose";
+import schema from "./schema";
 
-// import rootFragments from './modules/rootFragments';
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useFindAndModify: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 const pubsub = new PubSub();
@@ -18,8 +17,8 @@ const server = new ApolloServer({
   playground: true,
   context: (req: Request) => ({
     req,
-    pubsub,
-  }),
+    pubsub
+  })
 });
 
 export default server;

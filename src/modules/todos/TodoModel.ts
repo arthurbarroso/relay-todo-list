@@ -1,12 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export type TodoModel = Document & {
-  title: String;
-  content: String;
-  done: Boolean;
-  author: String;
+  title: string;
+  content: string;
+  done: boolean;
+  author: string;
 };
-
 
 const TodoSchema = new mongoose.Schema(
   {
@@ -20,11 +19,11 @@ const TodoSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      required: true,
+      required: true
     },
     done: {
       type: Boolean,
-      required: true,
+      required: true
     }
   },
   {
@@ -32,4 +31,4 @@ const TodoSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<TodoModel>('Todo', TodoSchema);
+export default mongoose.model<TodoModel>("Todo", TodoSchema);

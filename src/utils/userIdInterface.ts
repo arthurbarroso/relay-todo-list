@@ -1,9 +1,9 @@
-import { Request } from 'express';
+import { Request } from "express";
 
 export interface userIdInterface extends Request {
-    req: {
-        headers: {
-            authentication: string;
-        };
+  req: {
+    headers: {
+      authentication: string;
     };
+  };
 }

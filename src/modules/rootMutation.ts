@@ -1,9 +1,9 @@
-import { mutations } from './todos';
-import { userMutations } from './users';
-import { sessionMutations } from './sessions';
+import { mutations } from "./todos";
+import { userMutations } from "./users";
+import { sessionMutations } from "./sessions";
 
 export default {
-    ...mutations,
-    ...userMutations,
-    ...sessionMutations,
+  ...mutations,
+  ...userMutations,
+  ...sessionMutations
 };
