@@ -5,5 +5,10 @@ export interface userIdInterface extends Request {
     headers: {
       authentication: string;
     };
+    connection: {
+      context: {
+        Authorization: string;
+      };
+    };
   };
 }
