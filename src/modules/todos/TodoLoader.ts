@@ -1,87 +1,88 @@
+import { mongooseLoader, connectionFromMongoCursor } from "@entria/graphql-mongoose-loader"; //eslint-disable-line
+import DataLoader from "dataloader";
+import { ConnectionArguments } from "graphql-relay";
 import Todo, { TodoModel } from "./TodoModel";
 import User, { UserModel } from "../users/UserModel";
-import getUserId from "../../utils/getUserId";
+import GraphQLContext from "../context/GraphQLContext";
 
-export async function createTodo(
-  parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<TodoModel> {
-  const { input } = args;
-  const user = await getUserId(context.req);
+export default class TodoKind {
+  id: string;
 
-  if (!user) {
-    throw new Error("You must be authenticated to create a todo");
+  _id: string;
+
+  title: string;
+
+  content: string;
+
+  done: boolean;
+
+  createdAt: Date;
+
+  updatedAt: Date;
+
+  author: string;
+
+  constructor(data: TodoModel) {
+    this.id = data.id || data._id;
+    this._id = data._id;
+    this.title = data.title;
+    this.content = data.content;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
+    this.done = data.done;
+    this.author = data.author;
+  }
+}
+
+export const getLoader = () =>
+  new DataLoader(ids => mongooseLoader(Todo, ids as any));
+
+export const load = async (context, id): Promise<TodoModel> => {
+  if (!id) {
+    return null;
   }
 
-  const todo = await Todo.create({
-    title: input.title,
-    content: input.content,
-    done: input.done,
-    author: user
+  try {
+    const data = Todo.findOne({ _id: id });
+
+    if (!data) return null;
+
+    return data;
+  } catch (err) {
+    return null;
+  }
+};
+
+export const loadTodos = async (
+  context: GraphQLContext,
+  args: ConnectionArguments
+) => {
+  const where = args.search
+    ? {
+        title: {
+          $regex: new RegExp(`^${args.search}`, "ig")
+        }
+      }
+    : {};
+  const todos = Todo.find(where, { _id: 1 }).sort({
+    createdAt: -1
   });
-  context.pubsub.publish("TODO_ADDED", { createdTodo: todo });
-  return todo;
-}
-
-export async function getTodos(
-  parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<TodoModel> {
-  const user = await getUserId(context.req);
-  const todos = await Todo.find({
-    author: user
+  const t = await connectionFromMongoCursor({
+    cursor: todos,
+    context,
+    args,
+    loader: load
   });
-  return todos;
-}
 
-export async function updateTodo(
-  parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<TodoModel> {
-  const { id, input } = args;
-  const todo = await Todo.findOne({ _id: id });
-  const user = await getUserId(context.req);
-  if (!todo) {
-    throw new Error("No todo found with that id");
-  }
-  if (todo.author !== user)
-    throw new Error("This todo is not yours so you cannot update it");
-
-  await todo.update(input);
-  return todo;
-}
-
-export async function deleteTodo(
-  parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<TodoModel> {
-  const { id } = args;
-  const todo = await Todo.findOne({ _id: id });
-  const user = await getUserId(context.req);
-  if (!todo) {
-    throw new Error("No todo found with that id");
-  }
-  if (todo.author !== user)
-    throw new Error("This todo is not yours so you cannot delete it");
-
-  await todo.destroy();
-  return todo;
-}
+  return t;
+};
 
 export async function findAuthor(
   parentValues: any,
   args: any,
   context: any,
   info: any
-): Promise<TodoModel> {
+): Promise<UserModel> {
   const author = await User.findOne({ _id: parentValues.author });
   return author;
 }

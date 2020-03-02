@@ -3,56 +3,18 @@ import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLList,
-  GraphQLBoolean
+  GraphQLBoolean,
+  GraphQLObjectTypeConfig
 } from "graphql";
 
-import { getTodos } from "./users/UserLoader";
-import { findAuthor } from "./todos/TodoLoader";
+import { globalIdField } from "graphql-relay";
+import GraphQLContext from "./context/GraphQLContext";
 
-export const UserType = new GraphQLObjectType({
-  name: "UserType",
-  fields: () => ({
-    id: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    username: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    email: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    todos: {
-      type: GraphQLList(TodoType), //eslint-disable-line
-      resolve: (parentValues, args, context, info) => {
-        return getTodos(parentValues, args, context, info);
-      }
-    }
-  })
-});
+import User, { getTodos } from "./users/UserLoader";
+import Todo, { findAuthor } from "./todos/TodoLoader";
 
-export const TodoType = new GraphQLObjectType({
-  name: "TodoType",
-  fields: {
-    id: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    title: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    content: {
-      type: GraphQLNonNull(GraphQLString)
-    },
-    done: {
-      type: GraphQLNonNull(GraphQLBoolean)
-    },
-    author: {
-      type: GraphQLNonNull(UserType),
-      resolve: (parentValues, args, context, info) => {
-        return findAuthor(parentValues, args, context, info);
-      }
-    }
-  }
-});
+import { nodeInterface } from "../node/nodeInterface";
+import { connectionDefinitions } from "../connection/ConnectionType";
 
 export const SessionType = new GraphQLObjectType({
   name: "SessionType",
@@ -61,4 +23,94 @@ export const SessionType = new GraphQLObjectType({
       type: GraphQLNonNull(GraphQLString)
     }
   }
+});
+
+type TodoConfigType = GraphQLObjectTypeConfig<Todo, GraphQLContext>;
+
+const TodoTypeConfig: TodoConfigType = {
+  name: "Todo",
+  description: "Represents todo",
+  fields: () => ({
+    id: globalIdField("Todo"),
+    _id: {
+      type: GraphQLNonNull(GraphQLString),
+      description: "MongoDB _id",
+      resolve: todo => todo._id
+    },
+    title: {
+      type: GraphQLString,
+      resolve: todo => todo.title
+    },
+    content: {
+      type: GraphQLString,
+      resolve: todo => todo.content
+    },
+    done: {
+      type: GraphQLBoolean,
+      resolve: todo => todo.done
+    },
+    createdAt: {
+      type: GraphQLString,
+      resolve: todo => todo.createdAt
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: todo => todo[0]
+    },
+    author: {
+      type: GraphQLNonNull(UserType),
+      resolve: todo => findAuthor(todo, "", "", "")
+    }
+  }),
+  interfaces: () => [nodeInterface]
+};
+
+export const TodoType = new GraphQLObjectType(TodoTypeConfig);
+
+export const TodoConnection = connectionDefinitions({
+  name: "Todo",
+  nodeType: TodoType
+});
+
+type UserConfigType = GraphQLObjectTypeConfig<User, GraphQLContext>;
+
+const UserTypeConfig: UserConfigType = {
+  name: "User",
+  description: "Represents user",
+  fields: () => ({
+    id: globalIdField("User"),
+    _id: {
+      type: GraphQLNonNull(GraphQLString),
+      description: "MongoDB _id",
+      resolve: user => user._id
+    },
+    username: {
+      type: GraphQLString,
+      resolve: user => user.username
+    },
+    email: {
+      type: GraphQLString,
+      resolve: user => user.email
+    },
+    createdAt: {
+      type: GraphQLString,
+      resolve: todo => todo.createdAt
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: todo => todo
+    },
+    todos: {
+      type: GraphQLList(TodoType),
+      resolve: user => getTodos(user, "", "", "")
+    }
+  }),
+  interfaces: () => [nodeInterface]
+};
+
+export const UserType = new GraphQLObjectType(UserTypeConfig);
+
+export const UserConnection = connectionDefinitions({
+  name: "User",
+  nodeType: UserType
 });

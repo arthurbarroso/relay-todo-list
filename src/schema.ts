@@ -1,22 +1,12 @@
 import { GraphQLSchema, GraphQLObjectType } from "graphql";
 
-import rootQuery from "./modules/rootQuery";
-import rootMutation from "./modules/rootMutation";
+import QueryType from "./modules/QueryType";
+import MutationType from "./modules/MutationType";
 import rootSubscription from "./modules/rootSubscription";
 
 export default new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "RootQueryType",
-    fields: {
-      ...rootQuery
-    }
-  }),
-  mutation: new GraphQLObjectType({
-    name: "RootMutationType",
-    fields: {
-      ...rootMutation
-    }
-  }),
+  query: QueryType,
+  mutation: MutationType,
   subscription: new GraphQLObjectType({
     name: "RootSubscriptionType",
     fields: {
