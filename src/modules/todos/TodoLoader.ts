@@ -20,6 +20,8 @@ export default class TodoKind {
 
   updatedAt: Date;
 
+  author: string;
+
   constructor(data: TodoModel) {
     this.id = data.id || data._id;
     this._id = data._id;
@@ -28,19 +30,20 @@ export default class TodoKind {
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
     this.done = data.done;
+    this.author = data.author;
   }
 }
 
 export const getLoader = () =>
   new DataLoader(ids => mongooseLoader(Todo, ids as any));
 
-export const load = async (context, id) => {
+export const load = async (context, id): Promise<TodoModel> => {
   if (!id) {
     return null;
   }
 
   try {
-    const data = Todo.find({ _id: id });
+    const data = Todo.findOne({ _id: id });
 
     if (!data) return null;
 
@@ -56,7 +59,7 @@ export const loadTodos = async (
 ) => {
   const where = args.search
     ? {
-        name: {
+        title: {
           $regex: new RegExp(`^${args.search}`, "ig")
         }
       }
