@@ -33,13 +33,16 @@
     "sucrase": "^3.12.1"
   },
   "dependencies": {
+    "@entria/graphql-mongoose-loader": "^4.3.0",
     "apollo-server": "^2.10.1",
     "awesome-typescript-loader": "^5.2.1",
     "bcryptjs": "^2.4.3",
+    "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^14.6.0",
     "graphql-cli": "^3.0.14",
+    "graphql-relay": "^0.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
     "source-map-loader": "^0.2.4",

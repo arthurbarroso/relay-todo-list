@@ -3,6 +3,8 @@ import { TodoType } from "../rootType";
 
 // import UserType from '../users/UserType';
 
+/*
+
 import { createTodo, updateTodo, deleteTodo } from "./TodoLoader";
 
 const createTodoMutation = {
@@ -73,4 +75,6 @@ const deleteTodoMutation = {
   }
 };
 
-export { createTodoMutation, updateTodoMutation, deleteTodoMutation };
+
+*/
+export {};
