@@ -1,11 +1,12 @@
 {
-  "name": "graphql",
+  "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
   "scripts": {
-    "server:start": "yarn workspace server dev"
+    "dev": "nodemon src/server.ts",
+    "schema": "graphql get-schema -p prisma",
+    "build": "tsc"
   },
   "husky": {
     "hooks": {
@@ -28,9 +29,24 @@
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.3",
     "lerna": "^3.20.2",
-    "prettier": "^1.19.1"
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
+    "sucrase": "^3.12.1"
   },
   "dependencies": {
+    "@entria/graphql-mongoose-loader": "^4.3.0",
+    "apollo-server": "^2.10.1",
+    "awesome-typescript-loader": "^5.2.1",
+    "bcryptjs": "^2.4.3",
+    "dataloader": "^2.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^14.6.0",
+    "graphql-cli": "^3.0.14",
+    "graphql-relay": "^0.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.2",
+    "source-map-loader": "^0.2.4",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.2"
   },
@@ -38,10 +54,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
   }
 }
