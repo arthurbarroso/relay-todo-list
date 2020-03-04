@@ -23,4 +23,6 @@ const server = new ApolloServer({
     } as GraphQLContext)
 });
 
+server.setGraphQLPath("/graphql");
+
 export default server;
