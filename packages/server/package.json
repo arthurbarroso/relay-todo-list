@@ -5,14 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "schema": "graphql get-schema -p prisma",
+    "schema": "graphql get-schema",
     "build": "tsc"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
-    }
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
