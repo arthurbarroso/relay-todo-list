@@ -5,6 +5,8 @@ import Todo, { TodoModel } from "./TodoModel";
 import User, { UserModel } from "../users/UserModel";
 import GraphQLContext from "../context/GraphQLContext";
 
+import getUserId from "../../utils/getUserId";
+
 export default class TodoKind {
   id: string;
 
@@ -57,6 +59,7 @@ export const loadTodos = async (
   context: GraphQLContext,
   args: ConnectionArguments
 ) => {
+  // const userId = await getUserId(context.req);
   const where = args.search
     ? {
         title: {
