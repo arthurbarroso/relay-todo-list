@@ -1,5 +1,5 @@
 # source: http://localhost:4000
-# timestamp: Tue Mar 03 2020 20:41:57 GMT-0300 (Brasilia Standard Time)
+# timestamp: Wed Mar 04 2020 20:33:21 GMT-0300 (Brasilia Standard Time)
 
 schema {
   query: Query
@@ -38,6 +38,7 @@ type Mutation {
   createUser(input: createUserInput!): createUserPayload
   createTodo(input: createTodoInput!): createTodoPayload
   updateTodo(input: updateTodoInput!): updateTodoPayload
+  login(input: SessionInput): SessionType
 }
 
 """An object with an ID"""
@@ -72,12 +73,21 @@ type Query {
     id: ID!
   ): Node
   users(after: String, first: Int, before: String, last: Int, search: String): UserConnection!
-  TodoQuery(id: ID!): Todo
-  todosQuery(after: String, first: Int, before: String, last: Int, search: String): TodoConnection!
+  todo(id: ID!): Todo
+  todos(after: String, first: Int, before: String, last: Int, search: String): TodoConnection!
 }
 
 type RootSubscriptionType {
   createdTodo: Todo
+}
+
+input SessionInput {
+  username: String
+  password: String
+}
+
+type SessionType {
+  token: String!
 }
 
 """Represents todo"""

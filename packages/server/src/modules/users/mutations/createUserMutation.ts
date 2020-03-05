@@ -30,6 +30,15 @@ const mutation = mutationWithClientMutationId({
 
     const hashed_pass = await passwordHash(password);
 
+    const emailExists = await User.findOne({ email });
+    const usernameExists = await User.findOne({ username });
+    if (emailExists) {
+      throw new Error("Email already in use");
+    }
+    if (usernameExists) {
+      throw new Error("Username already in use");
+    }
+
     const newUser = await User.create({
       username,
       email,

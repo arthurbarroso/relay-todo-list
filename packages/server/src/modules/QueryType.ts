@@ -33,7 +33,7 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
       resolve: async (_, args, context) => loadUsers(context, args)
     },
 
-    TodoQuery: {
+    todo: {
       type: TodoType,
       args: {
         id: {
@@ -43,7 +43,7 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
       resolve: async (_, { id }, context) => load(context, fromGlobalId(id).id)
     },
 
-    todosQuery: {
+    todos: {
       type: GraphQLNonNull(TodoConnection.connectionType),
       args: {
         ...connectionArgs,

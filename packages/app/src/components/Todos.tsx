@@ -1,18 +1,21 @@
 import React from 'react';
-import { QueryRenderer, createRefetchContainer } from 'react-relay';
+import { QueryRenderer } from 'react-relay';
 //@ts-ignore
 import graphql from 'babel-plugin-relay/macro';
-import environment from './relay/environment';
-
+import environment from '../relay/environment';
+import { TodoItem } from './styles/Todo';
 
 const query = graphql`
-    query todosQuery {
-      todosQuery {
+    query TodosQuery {
+      todos {
         edges {
         node {
           id
           title
           content
+          author {
+            username
+          }
         }
       }
       }
@@ -24,21 +27,23 @@ const Todos = () => (
     query={query}
     variables={{}}
     render={({ error, props }) => {
+
       if (error) {
         return <div>Error! {JSON.stringify(error)}</div>;
       }
       if (!props) {
-        return <div>Loading...</div>;
+        return <h1>loading...</h1>;
       }
       //@ts-ignore
-      const { todosQuery } = props;
+      const { todos } = props;
+
 
       return (
         <div>
           {
             //@ts-ignore
-            todosQuery.edges.map(node => (
-              <h1 key={node.node.id}>{node.node.title}</h1>
+            todos.edges.map(node => (
+              <TodoItem key={node.node.id}><p>{node.node.title} by {node.node.author.username}</p></TodoItem>
             ))
           }
         </div>
