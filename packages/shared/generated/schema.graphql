@@ -1,0 +1,204 @@
+# source: http://localhost:4000
+# timestamp: Wed Mar 04 2020 20:33:21 GMT-0300 (Brasilia Standard Time)
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: RootSubscriptionType
+}
+
+input createTodoInput {
+  title: String!
+  content: String!
+  done: Boolean!
+  author: String!
+  clientMutationId: String
+}
+
+type createTodoPayload {
+  todoEdge: TodoEdge
+  error: String
+  clientMutationId: String
+}
+
+input createUserInput {
+  username: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type createUserPayload {
+  userEdge: UserEdge
+  error: String
+  clientMutationId: String
+}
+
+type Mutation {
+  createUser(input: createUserInput!): createUserPayload
+  createTodo(input: createTodoInput!): createTodoPayload
+  updateTodo(input: updateTodoInput!): updateTodoPayload
+  login(input: SessionInput): SessionType
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfoExtended {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""Main query"""
+type Query {
+  """The ID of an object"""
+  id: ID!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  users(after: String, first: Int, before: String, last: Int, search: String): UserConnection!
+  todo(id: ID!): Todo
+  todos(after: String, first: Int, before: String, last: Int, search: String): TodoConnection!
+}
+
+type RootSubscriptionType {
+  createdTodo: Todo
+}
+
+input SessionInput {
+  username: String
+  password: String
+}
+
+type SessionType {
+  token: String!
+}
+
+"""Represents todo"""
+type Todo implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """MongoDB _id"""
+  _id: String!
+  title: String
+  content: String
+  done: Boolean
+  createdAt: String
+  updatedAt: String
+  author: User!
+}
+
+"""A connection to a list of items."""
+type TodoConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfoExtended!
+
+  """A list of edges."""
+  edges: [TodoEdge]!
+}
+
+"""An edge in a connection."""
+type TodoEdge {
+  """The item at the end of the edge"""
+  node: Todo
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input updateTodoInput {
+  title: String!
+  content: String!
+  done: Boolean!
+  _id: String!
+  clientMutationId: String
+}
+
+type updateTodoPayload {
+  todoEdge: TodoEdge
+  error: String
+  clientMutationId: String
+}
+
+"""Represents user"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """MongoDB _id"""
+  _id: String!
+  username: String
+  email: String
+  createdAt: String
+  updatedAt: String
+  todos: [Todo]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfoExtended!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}

@@ -5,6 +5,8 @@ import Todo, { TodoModel } from "./TodoModel";
 import User, { UserModel } from "../users/UserModel";
 import GraphQLContext from "../context/GraphQLContext";
 
+import getUserId from "../../utils/getUserId";
+
 export default class TodoKind {
   id: string;
 
@@ -57,13 +59,17 @@ export const loadTodos = async (
   context: GraphQLContext,
   args: ConnectionArguments
 ) => {
+  const userId = await getUserId(context.req);
   const where = args.search
     ? {
         title: {
           $regex: new RegExp(`^${args.search}`, "ig")
-        }
+        },
+        author: userId
       }
-    : {};
+    : {
+        author: userId
+      };
   const todos = Todo.find(where, { _id: 1 }).sort({
     createdAt: -1
   });

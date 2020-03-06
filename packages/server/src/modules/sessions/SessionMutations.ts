@@ -7,7 +7,7 @@ const loginMutation = {
   args: {
     input: {
       type: new GraphQLInputObjectType({
-        name: "SessionInputt",
+        name: "SessionInput",
         fields: {
           username: {
             type: GraphQLString
