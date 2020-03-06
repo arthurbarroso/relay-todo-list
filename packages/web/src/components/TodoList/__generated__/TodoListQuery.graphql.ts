@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash fa96ff654e40c5020d725acce8e78149 */
+/* @relayHash e225d701b5c733e47c0f68bced91d26a */
 
 import { ConcreteRequest } from "relay-runtime";
 export type TodoListQueryVariables = {};
@@ -11,6 +11,7 @@ export type TodoListQueryResponse = {
                 readonly id: string;
                 readonly title: string | null;
                 readonly content: string | null;
+                readonly done: boolean | null;
             } | null;
         } | null>;
     };
@@ -30,6 +31,7 @@ query TodoListQuery {
         id
         title
         content
+        done
       }
     }
   }
@@ -85,6 +87,13 @@ const node: ConcreteRequest = (function () {
                                     "name": "content",
                                     "args": null,
                                     "storageKey": null
+                                },
+                                {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "done",
+                                    "args": null,
+                                    "storageKey": null
                                 }
                             ]
                         }
@@ -113,10 +122,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "TodoListQuery",
             "id": null,
-            "text": "query TodoListQuery {\n  todos {\n    edges {\n      node {\n        id\n        title\n        content\n      }\n    }\n  }\n}\n",
+            "text": "query TodoListQuery {\n  todos {\n    edges {\n      node {\n        id\n        title\n        content\n        done\n      }\n    }\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = '85f1ab446d92d4ac887b810caf0ca2ba';
+(node as any).hash = '6dcddc4b2d87e5cd049ea360e763e659';
 export default node;
