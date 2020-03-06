@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 //@ts-ignore
 import { Container, Content } from './styles';
 import environment from '../../relay/environment';
+import history from '../../routes/history';
+
 
 
 const mutation = graphql`
@@ -24,9 +26,12 @@ function commit(environment, username, password, setToken) {
       variables: {
         input: { username, password }
       },
-      onCompleted: (response, _) => {
+      onCompleted: (response, errors) => {
+        if (errors) {
+          console.log(errors);
+          return;
+        }
         setToken(response)
-        console.log(response);
       }
     }
   )
@@ -46,16 +51,19 @@ export default function SignIn() {
       //@ts-ignore
       const bearer = token.login.token;
       localStorage.setItem('token', bearer);
+      history.push('/todos');
     }
   }, [
     token
   ])
+
 
   return (
     <>
       <Container>
         <Content>
           <form>
+            <img src="https://i.imgur.com/OQMbe4j.png" alt="login" />
             <span>Username:</span>
             <input name="username" placeholder="cooluser" value={username}
               onChange={event => setUsername(event.target.value)} />
@@ -64,7 +72,7 @@ export default function SignIn() {
               onChange={event => setPassword(event.target.value)} />
             <button onClick={() => commit(environment, username, password, setToken)} type="button" >Login</button>
           </form>
-          <Link to="/signup">Doesn't have an account? Sign up!</Link>
+          <p>Doesn't have an account? <Link to="/signup">Sign up</Link></p>
         </Content>
       </Container>
     </>

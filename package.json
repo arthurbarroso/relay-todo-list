@@ -5,7 +5,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "server:start": "yarn workspace @graphql/server dev"
+    "server:start": "yarn workspace @graphql/server dev",
+    "schema": "yarn workspace @graphql/server schema",
+    "web:start": "yarn workspace @graphql/web start",
+    "web:relay": "yarn workspace @graphql/web relay"
   },
   "husky": {
     "hooks": {

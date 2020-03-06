@@ -59,14 +59,17 @@ export const loadTodos = async (
   context: GraphQLContext,
   args: ConnectionArguments
 ) => {
-  // const userId = await getUserId(context.req);
+  const userId = await getUserId(context.req);
   const where = args.search
     ? {
         title: {
           $regex: new RegExp(`^${args.search}`, "ig")
-        }
+        },
+        author: userId
       }
-    : {};
+    : {
+        author: userId
+      };
   const todos = Todo.find(where, { _id: 1 }).sort({
     createdAt: -1
   });

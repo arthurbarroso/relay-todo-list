@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { darken } from "polished";
 
 export const Container = styled.div`
   display: flex;
@@ -12,6 +13,10 @@ export const Content = styled.div`
   width: 100%;
   margin-top: 8%;
   max-width: 315px;
+
+  a {
+    color: #759c11;
+  }
 
   form {
     display: flex;
@@ -37,13 +42,17 @@ export const Content = styled.div`
     }
 
     button {
-      background: rgba(0, 0, 0, 0.1);
+      background: #1eb36b;
       border-radius: 4px;
       height: 32px;
       border: 0;
+      margin-bottom: 3%;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #fff;
 
       &:hover {
-        background: #cfcdcd;
+        background: ${darken(0.03, "#1eb36b")};
       }
     }
   }

@@ -46,6 +46,7 @@ export default function SignUp() {
     <Container>
       <Content>
         <form>
+          <img src="https://i.imgur.com/8BlGgfV.png" alt="signup" />
           <span>Username:</span>
           <input name="username" placeholder="cooluser" value={username} onChange={event => setUsername(event.target.value)} />
           <span>Email:</span>
@@ -54,7 +55,7 @@ export default function SignUp() {
           <input name="password" type="password" placeholder="********" value={password} onChange={event => setPassword(event.target.value)} />
           <button type="button" onClick={() => commit(environment, username, email, password)}>Register</button>
         </form>
-        <Link to="/login">Already have an account? Sign in!</Link>
+        <p>Already have an account? <Link to="/login">Sign in</Link></p>
       </Content>
     </Container>
   )

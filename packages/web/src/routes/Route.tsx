@@ -1,39 +1,28 @@
 import React from 'react';
-
 import { Route, Redirect } from 'react-router-dom';
 
-import DefaultLayout from '../components/_layout';[
 
+interface Routes {
+  path: string
+  exact?: boolean
+  component: React.FC
+  isPrivate: boolean
+}
 
-]
-export default function RouteWrapper({
-  //@ts-ignore
-  component: Component,
-  //@ts-ignore
-  isPrivate,
-  ...rest
-}) {
-  const signed = true;
+const RouteWrapper: React.FC<Routes> = ({ component, path, exact, isPrivate }) => {
+  const signed = localStorage.getItem('token');
 
   if (!signed && isPrivate) {
-    return <Redirect to="/" />;
+    return <Redirect from="/" to={{ pathname: '/login' }} />;
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/signup" />;
+    return <Redirect to="/todos" />;
   }
 
-
-
-
   return (
-    <Route
-      {...rest}
-      render={props => (
-        <DefaultLayout>
-          <Component {...props} />
-        </DefaultLayout>
-      )}
-    />
+    <Route component={component} path={path} exact={exact} />
   );
-}
+};
+
+export default RouteWrapper;
