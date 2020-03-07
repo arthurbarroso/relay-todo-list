@@ -20,6 +20,7 @@ export const Content = styled.div`
   a {
     width: 100%;
     max-width: 315px;
+    margin-top: 9%;
 
     button {
       width: 100%;

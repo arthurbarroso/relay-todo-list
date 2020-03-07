@@ -5,6 +5,7 @@ import { QueryRenderer, graphql } from 'react-relay';
 import environment from '../../relay/environment';
 
 import { Container, Content } from './styles';
+import Todo from './Todo';
 
 
 const query = graphql`
@@ -46,7 +47,7 @@ const TodoList = () => (
                 //@ts-ignore
                 todos.edges.map(node => (
                   <div key={node.node.id}>
-                    <h1>{node.node.title} {node.node.content} {node.node.done ? 'done' : 'not done'}</h1>
+                    <Todo title={node.node.title} content={node.node.content} done={node.node.done} id={node.node.id} />
                   </div>
                 ))
               }
