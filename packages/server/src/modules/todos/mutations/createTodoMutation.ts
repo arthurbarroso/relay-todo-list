@@ -5,6 +5,8 @@ import Todo from "../TodoModel";
 import { load } from "../TodoLoader";
 import { TodoConnection } from "../../rootType";
 
+import getUserId from "../../../utils/getUserId";
+
 interface todoArguments {
   title: string;
   content: string;
@@ -23,18 +25,16 @@ const mutation = mutationWithClientMutationId({
     },
     done: {
       type: GraphQLNonNull(GraphQLBoolean)
-    },
-    author: {
-      type: GraphQLNonNull(GraphQLString)
     }
   },
-  mutateAndGetPayload: async (args: todoArguments) => {
-    const { title, content, done, author } = args;
+  mutateAndGetPayload: async (args: todoArguments, context) => {
+    const { title, content, done } = args;
+    const user = await getUserId(context.req);
     const newTodo = await Todo.create({
       title,
       content,
       done,
-      author
+      author: user
     });
 
     return {

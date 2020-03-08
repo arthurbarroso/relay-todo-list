@@ -1,5 +1,5 @@
 # source: http://localhost:4000
-# timestamp: Wed Mar 04 2020 20:33:21 GMT-0300 (Brasilia Standard Time)
+# timestamp: Fri Mar 06 2020 14:34:17 GMT-0300 (Brasilia Standard Time)
 
 schema {
   query: Query
@@ -11,7 +11,6 @@ input createTodoInput {
   title: String!
   content: String!
   done: Boolean!
-  author: String!
   clientMutationId: String
 }
 
