@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { commitMutation, graphql } from 'react-relay';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 //@ts-ignore
 import environment from '../../relay/environment';
 import history from '../../routes/history';
@@ -38,9 +38,10 @@ function commit(environment, title, content, done) {
       },
       onCompleted: (_, errors) => {
         if (errors) {
-          console.log(errors);
+          toast.error('😔 Something went wrong when creating this todo')
           return;
         }
+        toast.success('🚀 Todo created successfully')
         history.push('/todos');
       }
     }

@@ -26,4 +26,8 @@ export const Wrapper = styled.div`
     text-decoration: none;
     color: inherit;
   }
+
+  button {
+    background: none;
+  }
 `;

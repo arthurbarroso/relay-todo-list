@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { commitMutation, graphql } from 'react-relay';
 //@ts-ignore
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { Container, Content } from './styles';
 import environment from '../../relay/environment';
@@ -26,11 +27,11 @@ function commit(environment, username, email, password) {
       variables: {
         input: { username, email, password }
       },
-      onCompleted: (response, errors) => {
+      onCompleted: (_, errors) => {
         if (errors) {
-          console.log(errors);
+          toast.error('😔 Something went wrong when signing up');
         }
-        console.log(response);
+        toast.success('🚀 Successfully signed up. Please sign in');
       }
     }
   )
