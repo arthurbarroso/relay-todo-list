@@ -32,7 +32,7 @@ export default class Userind {
 }
 
 export const getLoader = () =>
-  new DataLoader(ids => mongooseLoader(Todo, ids as any));
+  new DataLoader(ids => mongooseLoader(User, ids as any));
 
 export const load = async (context, id): Promise<UserModel> => {
   if (!id) {
