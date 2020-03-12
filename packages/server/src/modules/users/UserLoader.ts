@@ -25,6 +25,7 @@ export default class Userind {
     this.id = data.id || data._id;
     this._id = data._id;
     this.username = data.username;
+    this.email = data.email;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
     this.password = data.password;
