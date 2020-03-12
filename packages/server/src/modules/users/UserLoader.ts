@@ -21,7 +21,7 @@ export default class Userind {
 
   updatedAt: Date;
 
-  constructor(data: TodoModel) {
+  constructor(data: UserModel) {
     this.id = data.id || data._id;
     this._id = data._id;
     this.username = data.username;
@@ -56,10 +56,10 @@ export const loadUsers = async (
 ) => {
   const where = args.search
     ? {
-        username: {
-          $regex: new RegExp(`^${args.search}`, "ig")
-        }
+      username: {
+        $regex: new RegExp(`^${args.search}`, "ig")
       }
+    }
     : {};
   const users = User.find(where, { _id: 1 }).sort({
     createdAt: -1
